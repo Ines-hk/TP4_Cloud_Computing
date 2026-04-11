@@ -1,0 +1,129 @@
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+h2 {
+    color: #f0f0f0;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.02);
+}
+
+.info-box {
+    background: rgba(255,255,255,0.9);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.info-box ul {
+    margin-top: 10px;
+    padding-right: 20px;
+}
+
+.info-box li {
+    margin: 8px 0;
+    color: #333;
+}
+
+.links {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.links a {
+    background: white;
+    color: #667eea;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.links a:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
