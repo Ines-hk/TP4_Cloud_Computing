@@ -1,7 +1,4 @@
- # ============================================
-# TP5 Cloud Computing - Application Hybride
-# SQLite (Relationnel) + MongoDB (NoSQL)
-# ============================================
+
 
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
@@ -9,6 +6,8 @@ from pymongo import MongoClient
 from datetime import datetime
 import os
 from dotenv import load_dotenv
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 # تحميل المتغيرات من ملف .env
 load_dotenv()
@@ -16,15 +15,40 @@ load_dotenv()
 app = Flask(__name__)
 
 # ============================================
-# 1. Configuration SQLite (Relationnelle)
+# 1. Configuration PostgreSQL (Relationnelle)
 # ============================================
-def init_sqlite():
+def get_db_connection():
+    """إنشاء اتصال بقاعدة PostgreSQL"""
+    database_url = os.getenv('DATABASE_URL')
+    if not database_url:
+        # fallback to SQLite for local development
+        return None
+    return psycopg2.connect(database_url)
+
+def init_postgresql():
     """إنشاء جدول المستخدمين إذا لم يكن موجوداً"""
-    conn = sqlite3.connect('database.db', timeout=10)
+    database_url = os.getenv('DATABASE_URL')
+    if not database_url:
+        # استخدام SQLite محلياً
+        conn = sqlite3.connect('database.db', timeout=10)
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nom TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        conn.commit()
+        conn.close()
+        return
+    
+    conn = psycopg2.connect(database_url)
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             nom TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -32,7 +56,7 @@ def init_sqlite():
     ''')
     conn.commit()
     conn.close()
-
+    
 # ============================================
 # 2. Configuration MongoDB (NoSQL)
 # ============================================
