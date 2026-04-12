@@ -14,9 +14,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# ============================================
 # 1. Configuration PostgreSQL (Relationnelle)
-# ============================================
 def get_db_connection():
     """إنشاء اتصال بقاعدة PostgreSQL"""
     database_url = os.getenv('DATABASE_URL')
@@ -56,10 +54,8 @@ def init_postgresql():
     ''')
     conn.commit()
     conn.close()
-    
-# ============================================
+
 # 2. Configuration MongoDB (NoSQL)
-# ============================================
 # الاتصال بـ MongoDB المحلي
 # الاتصال بـ MongoDB Atlas مع دعم SSL
 import certifi
@@ -85,9 +81,7 @@ def add_log(action, email):
     }
     logs_collection.insert_one(log_entry)
 
-# ============================================
 # 3. Routes (المسارات)
-# ============================================
 @app.route('/')
 def index():
     """الصفحة الرئيسية - عرض نموذج التسجيل"""
@@ -156,14 +150,11 @@ def show_logs():
     html += "</ul><a href='/'>العودة</a>"
     return html
 
-# ============================================
-# 4. نقطة البداية
-# ============================================
 if __name__ == '__main__':
-    # تهيئة قاعدة البيانات SQLite عند التشغيل
-    init_sqlite()
-    print("✅ تم تهيئة SQLite (database.db)")
+    # تهيئة قاعدة البيانات
+    init_postgresql()  # ستستخدم PostgreSQL إذا وجدت DATABASE_URL، وإلا SQLite
+    print("✅ تم تهيئة قاعدة البيانات")
     print("✅ MongoDB متصل على:", mongo_uri)
-    print("🚀 التطبيق يعمل على: http://127.0.0.1:5000")
+    
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=False, host='0.0.0.0', port=port)
