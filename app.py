@@ -124,10 +124,13 @@ def show_users():
 @app.route('/logs')
 def show_logs():
     try:
-        logs = list(logs_collection.find().sort('timestamp', -1).limit(20))
+        logs = list(logs_collection.find().limit(20))
+        # ترتيب في Python بدل MongoDB
+        logs.sort(key=lambda x: x.get('timestamp', datetime.min), reverse=True)
+        
         html = "<h2>Logs MongoDB</h2><ul>"
         for l in logs:
-            html += f"<li>{l['timestamp']} - {l['action']} - {l['email']}</li>"
+            html += f"<li>{l.get('timestamp', 'N/A')} - {l.get('action', 'N/A')} - {l.get('email', 'N/A')}</li>"
         html += "</ul><a href='/'>Retour</a>"
         return html
     except Exception as e:

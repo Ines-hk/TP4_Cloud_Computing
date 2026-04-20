@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: tp4-cloud-app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: DATABASE_NAME
+        value: tp4_cloud
